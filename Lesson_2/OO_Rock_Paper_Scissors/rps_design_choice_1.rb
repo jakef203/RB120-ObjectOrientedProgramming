@@ -2,71 +2,55 @@
 class Player
   attr_accessor :move, :name
   
-  def initialize(player_type = :human)
-    @player_type = player_type
-    @move = nil
-    # @name = nil
-    set_name  ## They use set_name when initializing human and computer objects
+  def initialize
+    set_name
   end
+end
 
-  ## They use set_name as instance function in Player
+class Human < Player 
   def set_name
-    if human?
-      n = nil
-      loop do 
-        puts "What's your name?"
-        n = gets.chomp
-        break unless n.empty?
-        puts "You must enter a name: " 
-      end
-      self.name = n  
-    else
-      self.name = ['R2D2', 'Wallie', 'C3PO', 'Chappie', 'Eva'].sample
+    n = nil
+    loop do 
+      puts "What's your name?"
+      n = gets.chomp
+      break unless n.empty?
+      puts "You must enter a name: " 
     end
+    self.name = n 
   end
 
-  def choose
-    if human?
-      choice = nil
-      loop do
-        puts "#{name}, please choose rock, paper, or scissors."
-        choice = gets.chomp
-        break if ['rock', 'paper', 'scissors'].include?(choice)
-        puts "Sorry, invalid choice."
-      end
-      self.move = choice
-    else
-      self.move = ['rock', 'paper', 'scissors'].sample
+  def choose 
+    choice = nil
+    loop do
+      puts "#{name}, please choose rock, paper, or scissors."
+      choice = gets.chomp
+      break if ['rock', 'paper', 'scissors'].include?(choice)
+      puts "Sorry, invalid choice."
     end
+    self.move = choice
+  end
+end
+
+class Computer < Player 
+  def set_name 
+    self.name = ['R2D2', 'Wallie', 'C3PO', 'Chappie', 'Eva'].sample
   end
 
-  def human?
-    @player_type == :human
+  def choose 
+    self.move = ['rock', 'paper', 'scissors'].sample
   end
 end
 
 class RPSGame
   attr_accessor :human, :computer
   def initialize
-    @human = Player.new
-    @computer = Player.new(:computer)
+    @human = Human.new
+    @computer = Computer.new
   end
 
   def display_welcome_message
     puts "Welcome to Rock, Paper, Scissors!"
   end
-
-  # def set_player_names  ## I set name as part of RPS
-  #   puts "Please enter your name: "
-  #   n = nil
-  #   loop do 
-  #     n = gets.chomp
-  #     break unless n.empty?
-  #     puts "You must enter a name: " 
-  #   end
-  #   human.name = n  
-  #   computer.name = ['R2D2', 'Wallie', 'C3PO', 'Chappie', 'Eva'].sample
-  # end
 
   def display_winner
     puts "#{human.name} chose #{human.move}."
@@ -106,7 +90,6 @@ class RPSGame
 
   def play 
     display_welcome_message
-    # set_player_names  ## I used set_player_names as an instance function from RPS class
     loop do
       human.choose 
       computer.choose 
