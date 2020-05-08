@@ -6,6 +6,11 @@ class Move
                   'sc' => 'scissors',
                   'sp' => 'spock',
                   'l'  => 'lizard' }
+  WHAT_BEATS_WHAT = { 'rock' => ['scissors', 'lizard'],
+                      'paper' => ['spock', 'rock'],
+                      'scissors' => ['lizard', 'paper'],
+                      'spock' => ['rock', 'scissors'],
+                      'lizard' => ['paper', 'spock'] }
   attr_reader :value
 
   def initialize(val)
@@ -13,12 +18,7 @@ class Move
   end
 
   def >(other_move)
-    what_beats_what = { 'rock' => ['scissors', 'lizard'],
-                        'paper' => ['spock', 'rock'],
-                        'scissors' => ['lizard', 'paper'],
-                        'spock' => ['rock', 'scissors'],
-                        'lizard' => ['paper', 'spock'] }
-    what_beats_what[value].include?(other_move.value)
+    WHAT_BEATS_WHAT[value].include?(other_move.value)
   end
 
   def to_s
@@ -48,10 +48,10 @@ class Human < Player
     n = nil
     print "What's your name? "
     loop do
-      # puts "What's your name?"
       n = gets.chomp
-      break unless n.empty?
-      print "You must enter a name: "
+      break if n !~ /\s/ && n =~ /\w/
+      print "You must enter a valid name " \
+            "(must have a letter or digit, no spaces): "
     end
     self.name = n
   end
@@ -72,7 +72,7 @@ Please choose one of the following:
     choice = nil
     loop do
       display_choices
-      choice = gets.chomp
+      choice = gets.chomp.downcase
       break if Move::MOVE_VALUES.keys.include?(choice)
       game.display_score
       puts "Sorry, invalid choice."
@@ -152,8 +152,14 @@ class RPSGame
     puts "#{computer.name} chose #{computer.move}."
   end
 
-  def win?(player1, player2)
-    player1.move > player2.move
+  def calculate_winner
+    if human.move > computer.move
+      human
+    elsif computer.move > human.move
+      computer
+    else
+      "tie"
+    end
   end
 
   def show_move_history?
@@ -163,39 +169,39 @@ class RPSGame
     answer == 'y'
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def display_game_winner
-    if win?(human, computer)
+  def display_game_winner(winner)
+    case winner
+    when human
       puts "#{human.name} wins!"
-    elsif win?(computer, human)
+    when computer
       puts "#{computer.name} wins!"
     else
       puts "It's a tie!"
     end
     puts
-    display_move_history unless grand_winner? || !show_move_history?
+    calculate_move_history unless grand_winner? || !show_move_history?
   end
 
-  def display_move_history
-    players = [human, computer]
-    length = (players.max_by { |x| x.to_s.length }).name.length + 6
-    players.each do |player|
-      player_list = player.move_history.to_a.map do |move, count|
-        "#{move}: #{count}"
+  def calculate_move_history
+    length = [human.name, computer.name].max_by(&:length).length + 6
+    [human, computer].each do |player|
+      move_list = []
+      player.move_history.each do |move, count|
+        move_list << "#{move}: #{count}"
       end
-      puts "#{player.name} moves".ljust(length) +
-           " - #{player_list.join(', ')}"
+      display_move_history(player, move_list, length)
     end
     continue_game
   end
-  # rubocop:enable Metrics/AbcSize
 
-  def update_score
-    if win?(human, computer)
-      human.score += 1
-    elsif win?(computer, human)
-      computer.score += 1
-    end
+  def display_move_history(player, move_list, length)
+    puts "#{player.name} moves".ljust(length) +
+         " - #{move_list.join(', ')}"
+  end
+
+  def update_score(winner)
+    return unless [human, computer].include?(winner)
+    winner.score += 1
   end
 
   def grand_winner?
@@ -218,7 +224,7 @@ class RPSGame
     answer = nil
     loop do
       puts "Would you like to play again? (Y/N)"
-      answer = gets.chomp
+      answer = gets.chomp.downcase
       break if ['y', 'n'].include?(answer)
       puts "Invalid answer.  Please enter y or n."
     end
@@ -236,17 +242,17 @@ class RPSGame
       display_score
       human.choose(self)
       computer.choose
-      update_score
+      update_score(calculate_winner)
       return if grand_winner?
       display_moves
-      display_game_winner
+      display_game_winner(calculate_winner)
     end
   end
 
   def display_final_results
     display_score
     display_moves
-    display_game_winner
+    display_game_winner(calculate_winner)
     display_grand_winner
   end
 
