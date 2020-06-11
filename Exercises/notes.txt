@@ -1,0 +1,5 @@
+
+Exercises -> Medium 
+
+Stack Machine problem, solve the further exploration pt. 2
+
