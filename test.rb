@@ -17,8 +17,9 @@
 #   puts f.message
 # end
 
-def c_to_f(degrees_c:, h:)
-  ((9.0/5) * degrees_c) + 32 + h
-end
+# def c_to_f(degrees_c:, h:)
+#   ((9.0/5) * degrees_c) + 32 + h
+# end
 
-p c_to_f(degrees_c: 100, h: 10)
+# p c_to_f(degrees_c: 100, h: 10)
+
