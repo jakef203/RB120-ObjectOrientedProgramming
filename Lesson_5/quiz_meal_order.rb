@@ -73,7 +73,7 @@ class MealItem
 
   def item_options 
     self.class::OPTIONS.map do |option, details|
-      "Option #{option}, #{details[:name]}, cost is #{details[:cost]}"
+      "Option #{option}, #{details[:name]}, cost is #{format("$%.2f", details[:cost])}"
     end
   end
 
@@ -120,6 +120,7 @@ c1 = Customer.new
 c1.place_order  
 puts c1.order
 puts c1.order.burger
+puts c1.order.burger.cost
 puts c1.order.total
 # p c1.order.burger
 # Drink::OPTIONS.each do |option, details|

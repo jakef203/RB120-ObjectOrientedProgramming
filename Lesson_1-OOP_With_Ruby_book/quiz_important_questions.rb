@@ -23,6 +23,7 @@
 ## Question 16
 class Student
   attr_accessor :name, :grade
+  # attr_reader :grade
 
   def initialize(name)
     @name = name
@@ -30,12 +31,13 @@ class Student
   end
   # def self.change_grade(new_grade) ## This creates a class method, so it won't be called using priya
   def change_grade(new_grade)
-    @grade = new_grade  ## This will output 'A'
+    # @grade = new_grade  ## This will output 'A'
     # self.grade = new_grade  ## This will output 'A'
-    # grade = new_grade  ## This will output 'nil'
+    grade = new_grade  ## This will output 'nil'
   end
 end
 
-priya = Student.new("Priya")
-priya.change_grade('A')
-p priya.grade # => "A" --Only @grade and self.grade work in change_grade function
+# priya = Student.new("Priya")
+# priya.change_grade('A')
+# p priya.grade # => "A" --Only @grade and self.grade work in change_grade function
+
