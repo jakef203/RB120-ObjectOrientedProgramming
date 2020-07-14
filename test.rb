@@ -1,4 +1,34 @@
 
+module Swimmable 
+  def swim 
+    puts "I'm swimming"
+  end
+end
+
+
+class Animal
+end
+
+class Mammal < Animal 
+end
+
+class Fish < Animal
+  include Swimmable 
+end
+
+class Dog < Mammal
+  include Swimmable
+end
+
+class Cat < Mammal 
+end
+dog = Dog.new 
+fish = Fish.new
+cat = Cat.new
+dog.swim 
+fish.swim
+cat.swim
+
 # class ValidateAgeError < StandardError; end
 
 
