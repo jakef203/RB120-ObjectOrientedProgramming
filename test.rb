@@ -1,33 +1,7 @@
 
-module Swimmable 
-  def swim 
-    puts "I'm swimming"
-  end
-end
 
 
-class Animal
-end
 
-class Mammal < Animal 
-end
-
-class Fish < Animal
-  include Swimmable 
-end
-
-class Dog < Mammal
-  include Swimmable
-end
-
-class Cat < Mammal 
-end
-dog = Dog.new 
-fish = Fish.new
-cat = Cat.new
-dog.swim 
-fish.swim
-cat.swim
 
 # class ValidateAgeError < StandardError; end
 
@@ -53,149 +27,10 @@ cat.swim
 
 # p c_to_f(degrees_c: 100, h: 10)
 
-# class Man
-#   # attr_reader :name 
-#   # attr_writer :name
-
-#   def initialize(name)
-#     @name = name
-#   end
-
-#   def speak 
-#     puts "Hello there"
-#   end
-
-#   def name=(n)
-#     @name = n
-#   end
-
-#   def set_name(name)
-#     @name = name
-#   end
-
-#   def say_name
-#     puts "My name is #{@name}"
-#   end
-# end
-
-# class Dog
-#   attr_reader :name 
-#   # attr_writer :name
-
-#   def initialize(name)
-#     @name = name
-#   end
-
-#   def speak 
-#     puts "Woof"
-#   end
-
-#   # def name 
-#   #   @name
-#   # end
-
-#   def name=(n)
-#     @name = n
-#   end
-
-#   def set_name(name)
-#     @name = name
-#   end
-
-#   def say_name
-#     puts "My name is #{name}"
-#   end
-# end
-
-# man = Man.new("John")
-# dog = Dog.new("Bud")
-# # dog.name = "Lou"
-# dog.set_name("Jumper")
-# # dog.name = "Lou"
-# puts dog.name
-# arr = [man, dog]
-# arr.each {|thing| thing.speak }
 
 
 
-# man = Man.new("Joe")
-# # puts man.@name 
-# a = man.say_name
-# p a
-# # man.set_name("Jerry")
-# man.name = 'Jerry'
-# # puts man.@name 
-# man.say_name
 
-# class Animal
-#   attr_accessor :name
-
-#   def initialize(name)
-#     @name = name
-#   end
-# end
-
-# class GoodDog < Animal
-#   def initialize(color)
-#     super
-#     @color = color
-#   end
-# end
-
-# class BadDog < Animal 
-#   def initialize(color, name)
-#     super(name)
-#     @color = color 
-#   end
-# end
-
-# bruno = GoodDog.new("brown")  
-# p bruno 
-# baddo = BadDog.new("white", "Lou")
-# p baddo
-
-# module Mod 
-#   class Dog 
-#     def speak(word)
-#       p "#{word}"
-#     end
-#   end
-
-#   class Cat 
-#     def say_name(name)
-#       p "#{name}"
-#     end
-#   end
-# end
-
-# dog = Mod::Dog.new
-# dog.speak("Arf")
-# cat = Mod::Cat.new 
-# cat.say_name("Larry")
-
-# class GoodDog
-#   DOG_YEARS = 7
-
-#   attr_accessor :name, :age
-
-#   def initialize(n, a)
-#     self.name = n
-#     self.age = a
-#   end
-
-#   def public_disclosure
-#     "#{self.name} in human years is #{self.human_years}"
-#   end
-
-#   private
-
-#   def human_years
-#     age * DOG_YEARS
-#   end
-# end
-
-# sparky = GoodDog.new("Sparky", 4)
-# p sparky.public_disclosure
 
 # module Towable 
 #   def tow 
